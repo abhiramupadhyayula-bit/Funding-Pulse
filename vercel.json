@@ -1,8 +1,5 @@
 {
   "crons": [
     { "path": "/api/brief?cron=1", "schedule": "30 1 * * 1" }
-  ],
-  "functions": {
-    "api/brief.js": { "maxDuration": 60 }
-  }
+  ]
 }
