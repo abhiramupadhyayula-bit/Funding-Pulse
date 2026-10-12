@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Funding Pulse: weekly Indian startup funding brief</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF1F4; --surface: #FFFFFF; --ink: #16232E; --muted: #5A6875;
+    --rule: #CAD2DA; --money: #0F7B5F; --money-soft: #D5EDE5;
+    --alert: #B8621B; --alert-soft: #F8E6D6;
+    --serif: "Spectral", Georgia, "Times New Roman", serif;
+    --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12181E; --surface: #1A222A; --ink: #E6EBEF; --muted: #95A3AF;
+      --rule: #2C3843; --money: #3CC29A; --money-soft: #173A31;
+      --alert: #E39A55; --alert-soft: #3A2716;
+    }
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--sans); }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--money); outline-offset: 2px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px 64px; }
+
+  header.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 0; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+  .brand { font-weight: 700; font-size: 1.05rem; }
+  .brand span { color: var(--muted); font-weight: 400; margin-left: 8px; }
+  .actions { display: flex; gap: 8px; }
+  button { font: 600 0.9rem var(--sans); border-radius: 6px; padding: 9px 14px; cursor: pointer; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+  button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  button:disabled { opacity: .5; cursor: wait; }
+
+  .hero { padding: 44px 0 28px; }
+  .week { color: var(--muted); font-size: .95rem; margin: 0 0 12px; }
+  .summary { font-family: var(--serif); font-size: clamp(1.6rem, 3.6vw, 2.5rem); line-height: 1.25; margin: 0; max-width: 30ch; font-weight: 400; }
+  .totals { display: flex; gap: 28px; margin-top: 26px; flex-wrap: wrap; }
+  .totals div { font-size: .9rem; color: var(--muted); }
+  .totals b { display: block; font-size: 1.5rem; color: var(--ink); font-weight: 600; }
+  .totals .hit b { color: var(--alert); }
+
+  section { padding: 28px 0; border-top: 1px solid var(--rule); }
+  h2 { font-family: var(--serif); font-weight: 600; font-size: 1.45rem; margin: 0 0 16px; }
+  .sub { color: var(--muted); font-size: .92rem; margin: -10px 0 16px; }
+
+  .alerts { background: var(--alert-soft); border-left: 4px solid var(--alert); padding: 16px 18px; border-radius: 0 8px 8px 0; margin-bottom: 8px; }
+  .alerts h2 { color: var(--alert); font-size: 1.15rem; margin-bottom: 8px; }
+  .alerts ul { margin: 0; padding-left: 18px; }
+
+  .patterns { display: grid; gap: 14px 32px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); list-style: none; padding: 0; margin: 0; }
+  .patterns li { max-width: 60ch; }
+  .patterns b { display: block; margin-bottom: 2px; }
+  .patterns span { color: var(--muted); }
+
+  .flow { display: grid; gap: 8px; }
+  .flow-row { display: grid; grid-template-columns: minmax(110px, 180px) 1fr auto; align-items: center; gap: 12px; font-size: .92rem; }
+  .flow-track { height: 14px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+  .flow-fill { height: 100%; background: var(--muted); border-radius: 3px; transform-origin: left; animation: grow .7s ease-out both; }
+  .flow-row.focus .flow-fill { background: var(--money); }
+  .flow-row.focus .flow-label { font-weight: 600; }
+  .flow-num { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  @keyframes grow { from { transform: scaleX(0); } }
+  @media (prefers-reduced-motion: reduce) { .flow-fill { animation: none; } }
+
+  .deals { list-style: none; padding: 0; margin: 0; }
+  .deal { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .deal:last-child { border-bottom: 0; }
+  .deal h3 { margin: 0; font-size: 1.08rem; }
+  .deal.is-watch h3::after { content: "Watchlist"; margin-left: 10px; font-size: .75rem; font-weight: 600; color: var(--alert); background: var(--alert-soft); padding: 2px 8px; border-radius: 99px; vertical-align: middle; }
+  .amount { font-weight: 700; color: var(--money); text-align: right; font-variant-numeric: tabular-nums; }
+  .amount.none { color: var(--muted); font-weight: 500; }
+  .meta { grid-column: 1 / -1; color: var(--muted); font-size: .9rem; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .tag { font-size: .78rem; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--rule); color: var(--muted); }
+  .tag.match { border-color: var(--money); color: var(--money); background: var(--money-soft); }
+  .srcs { grid-column: 1 / -1; font-size: .85rem; display: flex; gap: 14px; flex-wrap: wrap; }
+  .srcs a { color: var(--muted); }
+
+  details summary { cursor: pointer; font-family: var(--serif); font-size: 1.3rem; font-weight: 600; }
+  details[open] summary { margin-bottom: 8px; }
+  .foot { color: var(--muted); font-size: .85rem; }
+
+  .state { padding: 80px 0; max-width: 46ch; }
+  .state p { color: var(--muted); }
+  .pulse { width: 46px; height: 4px; background: var(--money); border-radius: 2px; animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { transform: scaleX(2.2); opacity: .4; } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+  .error { border-left: 4px solid var(--alert); padding-left: 16px; }
+
+  dialog { border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); color: var(--ink); width: min(560px, 92vw); padding: 24px; }
+  dialog::backdrop { background: rgba(10, 20, 30, .45); }
+  dialog label { display: block; font-weight: 600; margin: 14px 0 4px; }
+  dialog small { color: var(--muted); font-weight: 400; }
+  dialog textarea { width: 100%; font: .95rem var(--sans); padding: 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); resize: vertical; }
+  .dlg-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+
+  @media (max-width: 560px) {
+    .flow-row { grid-template-columns: 96px 1fr auto; }
+    .deal { grid-template-columns: 1fr; }
+    .amount { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <div class="brand">Funding Pulse<span>Indian startup funding, weekly</span></div>
+    <div class="actions">
+      <button id="editBtn" type="button">Edit focus</button>
+      <button id="refreshBtn" class="primary" type="button">Refresh brief</button>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+
+<dialog id="dlg">
+  <h2>Your focus</h2>
+  <p class="sub" style="margin:0">Separate items with commas. Deals matching these move to the top of the brief.</p>
+  <label for="fSectors">Sectors <small>e.g. Fintech, SaaS, Deeptech/AI, Climate/EV, Healthtech</small></label>
+  <textarea id="fSectors" rows="2"></textarea>
+  <label for="fStages">Stages <small>e.g. Seed, Pre-Series A, Series A, Series B</small></label>
+  <textarea id="fStages" rows="2"></textarea>
+  <label for="fWatch">Watchlist companies</label>
+  <textarea id="fWatch" rows="3"></textarea>
+  <div class="dlg-actions">
+    <button id="resetBtn" type="button">Use default focus</button>
+    <div style="display:flex;gap:8px">
+      <button id="cancelBtn" type="button">Cancel</button>
+      <button id="saveBtn" class="primary" type="button">Save and rebuild brief</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const KEY = 'fundingPulseFocus';
+  const app = document.getElementById('app');
+  let current = null;
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const getFocus = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; } };
+  const setFocus = (v) => { try { v ? localStorage.setItem(KEY, JSON.stringify(v)) : localStorage.removeItem(KEY); } catch {} };
+  const usd = (m) => m >= 1000 ? `$${(m / 1000).toFixed(1)}B` : `$${Math.round(m)}M`;
+
+  async function load(fresh = false) {
+    document.getElementById('refreshBtn').disabled = true;
+    app.innerHTML = `<div class="state"><div class="pulse"></div><h2 style="margin-top:20px">Reading this week's funding news</h2><p>Pulling live announcements and asking Gemini to sort signal from noise. This takes about 20 to 40 seconds.</p></div>`;
+    try {
+      const focus = getFocus();
+      const res = focus
+        ? await fetch('/api/brief', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ config: focus }) })
+        : await fetch('/api/brief' + (fresh ? `?fresh=${Date.now()}` : ''));
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+      current = data;
+      render(data);
+    } catch (err) {
+      app.innerHTML = `<div class="state error"><h2>The brief could not be built</h2><p>${esc(err.message)}</p><button class="primary" onclick="load(true)">Try again</button></div>`;
+    } finally {
+      document.getElementById('refreshBtn').disabled = false;
+    }
+  }
+
+  function dealRow(d) {
+    const investors = d.lead_investors.length ? `Investors: ${esc(d.lead_investors.join(', '))}` : 'Investors not disclosed';
+    return `<li class="deal ${d.watchlistMatch ? 'is-watch' : ''}">
+      <div>
+        <h3>${esc(d.company)}</h3>
+        <div class="tags">
+          <span class="tag ${d.stageMatch ? 'match' : ''}">${esc(d.stage)}</span>
+          <span class="tag ${d.sectorMatch ? 'match' : ''}">${esc(d.sector)}</span>
+        </div>
+      </div>
+      <div class="amount ${d.amount_text ? '' : 'none'}">${esc(d.amount_text || 'Undisclosed')}</div>
+      <div class="meta">${d.one_liner ? esc(d.one_liner) + '. ' : ''}${investors}</div>
+      <div class="srcs">${d.sources.map((s) => `<a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.publisher)}</a>`).join('')}</div>
+    </li>`;
+  }
+
+  function render(b) {
+    const focus = b.deals.filter((d) => d.inFocus);
+    const rest = b.deals.filter((d) => !d.inFocus);
+    const hits = b.deals.filter((d) => d.watchlistMatch);
+    const maxDeals = Math.max(1, ...b.sectorStats.map((s) => s.deals));
+    const focusSectors = b.config.sectors.map((s) => s.toLowerCase());
+
+    app.innerHTML = `
+      <div class="hero">
+        <p class="week">Week of ${esc(b.weekFrom)} to ${esc(b.weekTo)}</p>
+        <p class="summary">${esc(b.summary || 'Here is where capital moved this week.')}</p>
+        <div class="totals">
+          <div><b>${b.totals.deals}</b>deals found</div>
+          <div><b>${usd(b.totals.disclosedUsdM)}</b>disclosed (approx.)</div>
+          <div><b>${focus.length}</b>in your focus</div>
+          <div class="${hits.length ? 'hit' : ''}"><b>${hits.length}</b>watchlist alerts</div>
+        </div>
+      </div>
+
+      ${hits.length ? `<div class="alerts"><h2>Watchlist alerts</h2><ul>${hits.map((d) => `<li><b>${esc(d.company)}</b> matched "${esc(d.watchlistMatch)}": ${esc(d.amount_text || 'amount undisclosed')}, ${esc(d.stage)}</li>`).join('')}</ul></div>` : ''}
+
+      <section>
+        <h2>Patterns this week</h2>
+        ${b.patterns.length ? `<ul class="patterns">${b.patterns.map((p) => `<li><b>${esc(p.title)}</b><span>${esc(p.detail)}</span></li>`).join('')}</ul>` : '<p class="sub">Not enough deals this week to call a pattern.</p>'}
+      </section>
+
+      <section>
+        <h2>Where capital went</h2>
+        <p class="sub">Deals per sector. Your focus sectors are highlighted.</p>
+        <div class="flow">${b.sectorStats.map((s) => `
+          <div class="flow-row ${focusSectors.includes(s.sector.toLowerCase()) ? 'focus' : ''}">
+            <span class="flow-label">${esc(s.sector)}</span>
+            <div class="flow-track"><div class="flow-fill" style="width:${(s.deals / maxDeals) * 100}%"></div></div>
+            <span class="flow-num">${s.deals} ${s.deals === 1 ? 'deal' : 'deals'}${s.usd_m ? `, ${usd(s.usd_m)}` : ''}</span>
+          </div>`).join('')}</div>
+      </section>
+
+      <section>
+        <h2>Deals in your focus</h2>
+        <p class="sub">Watchlist first, then your sectors at your stages, then your sectors at other stages.</p>
+        ${focus.length ? `<ul class="deals">${focus.map(dealRow).join('')}</ul>` : '<p class="sub">No deals matched your focus this week. Check the rest below, or widen your focus.</p>'}
+      </section>
+
+      <section>
+        <details>
+          <summary>All other deals (${rest.length})</summary>
+          <ul class="deals">${rest.map(dealRow).join('')}</ul>
+        </details>
+      </section>
+
+      <section class="foot">
+        <p>Scanned ${b.totals.headlinesScanned} headlines from ${b.sources.filter((s) => s.ok).length} of ${b.sources.length} live sources. Analysed with ${esc(b.model)}. Built ${new Date(b.generatedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST.</p>
+        <p>Amounts and investors are extracted by AI from headlines. Open the source link before acting on or sharing a figure.</p>
+      </section>`;
+  }
+
+  const dlg = document.getElementById('dlg');
+  const split = (v) => v.split(',').map((s) => s.trim()).filter(Boolean);
+  document.getElementById('editBtn').onclick = () => {
+    const f = getFocus() || current?.config || { sectors: [], stages: [], watchlist: [] };
+    document.getElementById('fSectors').value = f.sectors.join(', ');
+    document.getElementById('fStages').value = f.stages.join(', ');
+    document.getElementById('fWatch').value = f.watchlist.join(', ');
+    dlg.showModal();
+  };
+  document.getElementById('cancelBtn').onclick = () => dlg.close();
+  document.getElementById('saveBtn').onclick = () => {
+    setFocus({
+      sectors: split(document.getElementById('fSectors').value),
+      stages: split(document.getElementById('fStages').value),
+      watchlist: split(document.getElementById('fWatch').value)
+    });
+    dlg.close();
+    load(true);
+  };
+  document.getElementById('resetBtn').onclick = () => { setFocus(null); dlg.close(); load(true); };
+  document.getElementById('refreshBtn').onclick = () => load(true);
+
+  load();
+</script>
+</body>
+</html>
